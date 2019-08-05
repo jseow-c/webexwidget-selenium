@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Webex Widget</title>
+
+    <!-- Production compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://code.s4d.io/widget-recents/production/main.css"
+    />
+
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://code.s4d.io/widget-space/production/main.css"
+    />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://code.s4d.io/widget-space/production/bundle.js"></script>
+
+    <!-- Production compiled and minified JavaScript -->
+    <script src="https://code.s4d.io/widget-recents/production/bundle.js"></script>
+  </head>
+  <body>
+    <div
+      style="width: calc(100vw - 16px); height: calc(100vh - 16px); display: flex; justify-content: center;"
+    >
+      <div style="width: 30%; height: calc(100vh - 16px);">
+        <div id="my-recents-widget"></div>
+      </div>
+      <div style="width: 60%; height: 100%;">
+        <div id="my-space-widget"></div>
+      </div>
+    </div>
+    <script>
+      var accessToken = sessionStorage.getItem("access_token");
+      console.log(accessToken);
+      // Init a new widget
+      var widgetEl = document.getElementById("my-recents-widget");
+      ciscospark.widget(widgetEl).recentsWidget({
+        accessToken
+      });
+
+      // Init a new widget
+      var spaceWidgetEl = document.getElementById("my-space-widget");
+      ciscospark.widget(spaceWidgetEl).spaceWidget({
+        accessToken,
+        destinationType: "spaceId",
+        destinationId:
+          "Y2lzY29zcGFyazovL3VzL1JPT00vYWEzOWFkODAtYWMzZC0xMWU5LTkzYzMtMWJmZWJhZTc0OTY2"
+      });
+
+      document
+        .getElementById("my-recents-widget")
+        .addEventListener("rooms:selected", function(event) {
+          // Handle the event here
+          ciscospark.widget(spaceWidgetEl).spaceWidget({
+            accessToken,
+            destinationType: "spaceId",
+            destinationId: event.detail.data.id
+          });
+          console.log(event.detail);
+        });
+    </script>
+  </body>
+</html>

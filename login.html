@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Login to Mozart</title>
+    <link rel="stylesheet" href="login.css" />
+  </head>
+  <body>
+    <div class="form-structor">
+      <div class="signup">
+        <h2 class="form-title" id="signup"><span>or</span>Sign up</h2>
+        <div class="form-holder">
+          <input type="text" class="input input-disabled" placeholder="Name" />
+          <input
+            type="email"
+            class="input input-disabled"
+            placeholder="Email"
+          />
+          <input
+            type="password"
+            class="input input-disabled"
+            placeholder="Password"
+          />
+        </div>
+        <button class="submit-btn btn-disabled">Sign up</button>
+      </div>
+      <div class="login slide-up">
+        <div class="center">
+          <h2 class="form-title" id="login"><span>or</span>Log in</h2>
+          <div class="form-holder">
+            <input
+              type="email"
+              class="input"
+              id="loginEmail"
+              placeholder="Email"
+            />
+            <input
+              type="password"
+              class="input"
+              placeholder="Password"
+              id="loginPassword"
+            />
+          </div>
+          <button onclick="formLogin()" class="submit-btn">Log in</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="login.js"></script>
+    <script>
+      function formLogin() {
+        const data = {
+          email: document.getElementById("loginEmail").value,
+          password: document.getElementById("loginPassword").value
+        };
+        axios
+          .post("http://127.0.0.1:5000", data)
+          .then(function(response) {
+            console.log(response);
+            sessionStorage.setItem(
+              "access_token",
+              response["data"]["access_token"]
+            );
+            window.location.href = "index.html";
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
+    </script>
+  </body>
+</html>
